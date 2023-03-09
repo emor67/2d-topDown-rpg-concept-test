@@ -42,18 +42,11 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
-*.mat
-*.meta
-*.prefab
-*.png
-*.asset
 
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
-*.prefab.meta
-*.mat.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
