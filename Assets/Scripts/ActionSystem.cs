@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class ActionSystem : MonoBehaviour
 {
- 
-    void OnCollisionEnter2D(Collision2D collision)
+    public Canvas canvas;
+
+    void Start()
     {
-        if (collision.gameObject.CompareTag("enemy"))
+        //canvas.gameObject.SetActive(false);
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("enemy"))
         {
             Debug.Log("Yey!");
+            //canvas.gameObject.SetActive(true);
+
         }
     }
    
