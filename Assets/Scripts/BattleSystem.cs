@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; 
 
@@ -85,12 +84,12 @@ void BattleCheck()
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
 
-        state = BattleState.PLAYERTURN;
-
         dialogText.text = "OMG! Is this " + enemyUnit.unitName + "?";
 
-        yield return new WaitForSeconds(1f);
+        state = BattleState.PLAYERTURN;
         
+        yield return new WaitForSeconds(2f);
+
         PlayerTurn();
     }
 
@@ -99,6 +98,7 @@ void BattleCheck()
         bool isdead = enemyUnit.TakeDamage(playerUnit.damage);
 
         enemyHUD.SetHP(enemyUnit.currentHP);
+        enemyHUD.SetHUD(enemyUnit);
         dialogText.text = "Attack's legit, dude";
 
         if (isdead)
@@ -119,13 +119,14 @@ void BattleCheck()
     {
         dialogText.text = enemyUnit.unitName + " is comin' tru ya!!!";
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
 
         bool isdead = playerUnit.TakeDamage(enemyUnit.damage);
-
+        
         playerHUD.SetHP(playerUnit.currentHP);
-
-        yield return new WaitForSeconds(2f);
+        playerHUD.SetHUD(playerUnit);
+        
+        yield return new WaitForSeconds(1f);
 
         if (isdead)
         {

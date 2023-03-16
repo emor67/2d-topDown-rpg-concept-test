@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class unit : MonoBehaviour
@@ -16,7 +14,10 @@ public class unit : MonoBehaviour
         currentHP -= dmg;
 
         if (currentHP <= 0)
+        {
+            currentHP = 0;
             return true;
+        }
         else
             return false;
     }

@@ -130,6 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: enemy
-  maxHP: 50
-  currentHP: 50
+  maxHP: 60
+  currentHP: 60
   damage: 10
