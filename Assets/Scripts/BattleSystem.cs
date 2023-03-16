@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; 
 
-public enum BattleState { BEFORE, PLAYERTURN, ENEMYTURN, WIN, LOST}
+public enum BattleState { BEFORE, BATTLE, PLAYERTURN, ENEMYTURN, WIN, LOST}
 public class BattleSystem : MonoBehaviour
 {
     public BattleState state;
+
+    Collider2D collider1;
+    Collider2D collider2;
+    public GameObject _player;
+    public GameObject _enemy;
 
     public GameObject player;
     public GameObject enemy;
@@ -17,15 +22,56 @@ public class BattleSystem : MonoBehaviour
     public BattleHUD playerHUD;
     public BattleHUD enemyHUD;
 
+    public Canvas battleCanvas;
+
     public Text dialogText;
 
     private unit playerUnit;
     private unit enemyUnit;
 
+    private bool hasCollided = false;
+
+
     void Start()
     {
         state = BattleState.BEFORE;
-        StartCoroutine(SetupBattle());
+        collider1 = _player.GetComponent<Collider2D>();
+        collider2 = _enemy.GetComponent<Collider2D>();
+    }
+
+    private void Update()
+    {
+        BattleCheck();
+    }
+
+    
+
+void BattleCheck()
+    {
+        if (state == BattleState.BEFORE)
+        {
+            battleCanvas.gameObject.SetActive(false);
+        }
+        if (state == BattleState.BATTLE)
+        {
+            battleCanvas.gameObject.SetActive(true);
+            StartCoroutine(SetupBattle());
+        }
+        isTouching();
+    }
+
+    private void isTouching()
+    {
+        
+        if (!hasCollided)
+        {
+            if (collider1.IsTouching(collider2))
+            {
+                //Debug.Log("GameObject1 and GameObject2 are touching");
+                state = BattleState.BATTLE;
+                hasCollided = true;
+            }
+        }
     }
 
     IEnumerator SetupBattle()
@@ -36,14 +82,15 @@ public class BattleSystem : MonoBehaviour
         GameObject enemyGO = Instantiate(enemy, enemyStation);
         enemyUnit = enemyGO.GetComponent<unit>();
 
-        dialogText.text = "OMG! Is this " + enemyUnit.unitName + "?";
-
         playerHUD.SetHUD(playerUnit);
         enemyHUD.SetHUD(enemyUnit);
 
-        yield return new WaitForSeconds(3f);
-
         state = BattleState.PLAYERTURN;
+
+        dialogText.text = "OMG! Is this " + enemyUnit.unitName + "?";
+
+        yield return new WaitForSeconds(1f);
+        
         PlayerTurn();
     }
 
@@ -65,7 +112,7 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(EnemyTurn());
         }
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
     }
 
     IEnumerator EnemyTurn()
@@ -84,6 +131,7 @@ public class BattleSystem : MonoBehaviour
         {
             state = BattleState.LOST;
             EndBattle();
+            
         }
         else
         {
@@ -97,10 +145,21 @@ public class BattleSystem : MonoBehaviour
         if(state == BattleState.WIN)
         {
             dialogText.text = "Hit da b*tch, man!";
-        }else if(state == BattleState.LOST)
+            
+        }
+        else if(state == BattleState.LOST)
         {
             dialogText.text = "Nah man, you f*cked up!?";
+            
         }
+        StartCoroutine(CloseBattlePanel());
+    }
+
+    IEnumerator CloseBattlePanel()
+    {
+        yield return new WaitForSeconds(2f);
+
+        battleCanvas.gameObject.SetActive(false);
     }
     void PlayerTurn()
     {

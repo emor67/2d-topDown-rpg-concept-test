@@ -9,6 +9,7 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private LayerMask wall;
 
     private Rigidbody2D rb;
+    //public Canvas battleCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,14 @@ public class playerMovement : MonoBehaviour
         PlayerMove();
     }
 
+    /*void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("enemy"))
+        {
+            Debug.Log("yey");
+        }
+    }*/
+
     private void PlayerMove()
     {
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.fixedDeltaTime);
@@ -32,13 +41,13 @@ public class playerMovement : MonoBehaviour
         {
             if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
             {
-                if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), 0.2f,wall)){
+                if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), 0.3f,wall)){
                     movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
                 }
             }
             else if (Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
             {
-                if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), 0.2f, wall))
+                if (!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), 0.3f, wall))
                 {
                     movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
                 }

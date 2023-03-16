@@ -6,15 +6,15 @@ using UnityEngine.UI;
 public class BattleHUD : MonoBehaviour
 {
     public Text nameAndHP;
-    public int hp;
+    private int _hp;
 
     public void SetHP(int hp)
     {
-        this.hp = hp;
+        _hp = hp;
     }
     public void SetHUD(unit unit)
     {
-        unit.currentHP = hp;
+        unit.currentHP = _hp;
         nameAndHP.text = unit.unitName + "   Hp " + unit.currentHP + "/" + unit.maxHP;
     }
     
