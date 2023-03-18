@@ -174,4 +174,26 @@ void BattleCheck()
 
         StartCoroutine(PlayerAttack());
     }
+
+    public void OnHealButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+            return;
+
+        StartCoroutine(PlayerHeal());
+    }
+    IEnumerator PlayerHeal()
+    {
+        playerUnit.Heal(5);
+
+        playerHUD.SetHP(playerUnit.currentHP);
+        playerHUD.SetHUD(playerUnit);
+
+        dialogText.text = "Ohh, it feels good!";
+
+        yield return new WaitForSeconds(2f);
+
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
+    }
 }
